@@ -1,0 +1,37 @@
+# ── OS / editor junk ─────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# ── Build tools (not part of the site) ──────────
+node_modules/
+C:/Users/konat/AppData/Local/Temp/spidey-build/
+
+# ── Original raw source frames (large, keep locally) ──
+clip 1 frame/
+clip 2 frame/
+clip 3 frame/
+flow clip frame/
+
+# ── Original videos & zips (keep locally) ────────
+*.mp4
+*.zip
+
+# ── Other original images (keep locally) ─────────
+Bike pic.png
+E1.png
+E2.png
+k1.png
+k2.png
+k3.png
+k4.png
+
+# ── Dev server (optional to push) ────────────────
+server.js
+
+# ── Auto-generated build artefacts ───────────────
+assets/frame-counts.txt

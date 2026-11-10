@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SPIDEY NS160 — The electric bike that brings its own light. Drive the night.">
+  <title>SPIDEY NS160</title>
+
+  <!-- Preconnect for Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts: Archivo (display), Inter (body), JetBrains Mono (HUD) -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400&family=Inter:wght@400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body style="visibility:hidden">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  FILM GRAIN OVERLAY (fixed, pointer-events none)                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <canvas id="grain" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  CUSTOM CURSOR                                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="cursor" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  PRELOADER                                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="preloader" role="status" aria-label="Loading SPIDEY NS160">
+    <div id="preloader-wordmark" aria-hidden="true">SPIDEY</div>
+    <div id="preloader-bar-wrap">
+      <div id="preloader-bar"></div>
+      <span id="preloader-counter" class="font-hud">000</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  NAV                                                                    -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <nav id="nav" aria-label="Main navigation">
+    <a href="#hero-wrapper" id="nav-wordmark" aria-label="SPIDEY home">SPIDEY</a>
+    <ul id="nav-links">
+      <li><a href="#lineup"  class="font-hud">Models</a></li>
+      <li><a href="#dismantle-wrapper" class="font-hud">Technology</a></li>
+      <li><a href="#reserve" class="font-hud" id="nav-reserve-link" data-cursor-label="RESERVE">Reserve</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  SECTION 1 — HERO (pinned scroll-scrub)                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="hero-wrapper" class="pinned-wrapper" aria-label="NS160 hero sequence">
+    <div id="hero-stage" class="pinned-stage">
+
+      <!-- Canvas: frames drawn here -->
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+      <!-- Fade-to-black overlay -->
+      <div id="hero-fade" aria-hidden="true"></div>
+
+      <!-- ── Text chapters ── -->
+      <div id="hero-chapters" aria-live="polite">
+
+        <!-- Chapter 0: 0–12% -->
+        <div class="hero-chapter" data-ch="0" aria-label="Chapter 1: The city is asleep">
+          <div class="line-mask">
+            <h1 class="line-inner font-display">SPIDEY</h1>
+          </div>
+          <div class="line-mask" style="margin-top:16px">
+            <p class="line-inner font-body" style="color:var(--fog);font-size:clamp(14px,1vw,16px)">The city is asleep.</p>
+          </div>
+          <div class="scroll-hint" style="margin-top:24px">
+            <div class="scroll-hint-line"></div>
+            <span class="font-hud" style="color:var(--xenon)">Scroll to wake it</span>
+          </div>
+        </div>
+
+        <!-- Chapter 1: 22–40% -->
+        <div class="hero-chapter" data-ch="1" aria-label="Chapter 2: It doesn't need the city's light">
+          <div class="line-mask">
+            <h2 class="line-inner font-display" style="font-size:clamp(28px,4.5vw,72px)">It doesn't need</h2>
+          </div>
+          <div class="line-mask">
+            <h2 class="line-inner font-display" style="font-size:clamp(28px,4.5vw,72px)">the city's light.</h2>
+          </div>
+        </div>
+
+        <!-- Chapter 2: 50–68% -->
+        <div class="hero-chapter" data-ch="2" aria-label="Chapter 3: It brings its own">
+          <div class="line-mask">
+            <h2 class="line-inner font-display" style="font-size:clamp(28px,4.5vw,72px)">It brings</h2>
+          </div>
+          <div class="line-mask">
+            <h2 class="line-inner font-display" style="font-size:clamp(28px,4.5vw,72px)">its own.</h2>
+          </div>
+        </div>
+
+        <!-- Chapter 3: 80–100% -->
+        <div class="hero-chapter" data-ch="3" aria-label="Chapter 4: NS160">
+          <div class="line-mask">
+            <h1 class="line-inner font-display">NS160</h1>
+          </div>
+          <div class="hero-specs" style="margin-top:16px">
+            <span class="hero-spec-item font-hud">0–100 KM/H 3.1S</span>
+            <span class="hero-spec-item font-hud">640 KM RANGE</span>
+            <span class="hero-spec-item font-hud">DUAL MOTOR</span>
+          </div>
+          <div class="line-mask" style="margin-top:24px">
+            <a href="#lineup" class="hero-discover line-inner font-hud" data-cursor-label="VIEW">
+              Discover the NS160 →
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /hero-chapters -->
+
+      <!-- ── Left HUD ── -->
+      <div id="hero-hud" aria-hidden="true">
+        <!-- Chapter indicator -->
+        <div class="hud-chapter" data-idx="0">
+          <div class="hud-tick"></div>
+          <span class="hud-label font-hud">01 / 04</span>
+        </div>
+        <div class="hud-chapter" data-idx="1">
+          <div class="hud-tick"></div>
+          <span class="hud-label font-hud">02 / 04</span>
+        </div>
+        <div class="hud-chapter" data-idx="2">
+          <div class="hud-tick"></div>
+          <span class="hud-label font-hud">03 / 04</span>
+        </div>
+        <div class="hud-chapter" data-idx="3">
+          <div class="hud-tick"></div>
+          <span class="hud-label font-hud">04 / 04</span>
+        </div>
+
+        <div class="hud-divider"></div>
+
+        <!-- Speed counter -->
+        <div id="hud-speed">
+          <span id="hud-speed-val" class="font-hud" style="color:var(--bone)">000</span>
+          <span class="hud-unit font-hud"> KM/H</span>
+        </div>
+
+        <!-- Distance counter -->
+        <div id="hud-dist">
+          <span id="hud-dist-val" class="font-hud" style="color:var(--bone)">0.0</span>
+          <span class="hud-unit font-hud"> KM</span>
+        </div>
+      </div>
+
+      <!-- Scroll progress line -->
+      <div class="progress-line" id="hero-progress-line" aria-hidden="true"></div>
+
+    </div><!-- /hero-stage -->
+  </div><!-- /hero-wrapper -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  SECTION 2 — STATEMENT                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="statement" aria-labelledby="statement-heading">
+    <p id="statement-eyebrow" class="font-hud" style="color:var(--taillight)">02 — ENGINEERING</p>
+    <h2 id="statement-text" class="font-display" style="font-weight:300;font-size:clamp(24px,4vw,72px);text-align:center;max-width:20ch;line-height:1.1">
+      Every part was designed to disappear into one line of light.
+    </h2>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  SECTION 3 — DISMANTLE (pinned scroll-scrub)                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="dismantle-wrapper" class="pinned-wrapper" aria-label="NS160 engineering dismantle sequence">
+    <div id="dismantle-stage" class="pinned-stage">
+
+      <canvas id="dismantle-canvas" aria-hidden="true"></canvas>
+
+      <!-- Section title -->
+      <h2 id="dismantle-title" class="font-display" style="font-size:clamp(20px,3vw,48px)">Look closer.</h2>
+
+      <!-- ── Callouts ── -->
+      <!-- BODY callout -->
+      <div id="callout-body" class="callout" aria-hidden="true"
+           style="left:38%;top:32%;transform:translate(-50%,-50%)">
+        <div style="position:relative;width:120px;height:32px">
+          <div class="callout-dot" style="left:0;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-line" style="left:6px;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-content" style="left:60px">
+            <span class="callout-label">BODY</span>
+            <span class="callout-text">Carbon composite monocoque</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BATTERY callout -->
+      <div id="callout-battery" class="callout" aria-hidden="true"
+           style="left:50%;top:55%;transform:translate(-50%,-50%)">
+        <div style="position:relative;width:160px;height:32px">
+          <div class="callout-dot" style="left:0;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-line" style="left:6px;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-content" style="left:60px">
+            <span class="callout-label">BATTERY</span>
+            <span class="callout-text">110 kWh structural pack</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRIVE callout -->
+      <div id="callout-drive" class="callout" aria-hidden="true"
+           style="left:72%;top:68%;transform:translate(-50%,-50%)">
+        <div style="position:relative;width:200px;height:32px">
+          <div class="callout-dot" style="left:0;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-line" style="left:6px;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-content" style="left:60px">
+            <span class="callout-label">DRIVE</span>
+            <span class="callout-text">Dual axial-flux motors, 680 kW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIGHT callout (left side) -->
+      <div id="callout-light" class="callout" aria-hidden="true"
+           style="left:25%;top:42%;transform:translate(-50%,-50%)">
+        <div style="position:relative;width:180px;height:32px">
+          <div class="callout-dot" style="right:0;left:auto;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-line" style="right:6px;left:auto;top:50%;transform:translateY(-50%)"></div>
+          <div class="callout-content" style="right:60px;left:auto;transform:translate(0,-50%)">
+            <span class="callout-label" style="text-align:right;display:block">LIGHT</span>
+            <span class="callout-text" style="white-space:nowrap">Single-line LED signature</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll progress line -->
+      <div class="progress-line" id="dismantle-progress-line" aria-hidden="true"></div>
+
+    </div><!-- /dismantle-stage -->
+  </div><!-- /dismantle-wrapper -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  SECTION 4 — LINEUP                                                    -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="lineup" aria-labelledby="lineup-heading">
+    <div id="lineup-header">
+      <span id="lineup-eyebrow" class="font-hud">03 — THE LINEUP</span>
+      <h2 id="lineup-heading" id="lineup-headline" class="font-display">Five ways to drive the night.</h2>
+    </div>
+
+    <div id="lineup-slides" role="tablist" aria-label="NS160 model lineup">
+
+      <!-- ── Slide 01: NS160 ── -->
+      <button class="lineup-slide"
+              role="tab"
+              aria-selected="true"
+              aria-expanded="true"
+              aria-controls="slide-panel-0"
+              id="slide-btn-0"
+              data-idx="0"
+              tabindex="0">
+
+        <span class="slide-num font-hud">01</span>
+        <img class="slide-img-closed"
+             src="assets/bikes/gt-e.webp"
+             alt="NS160 GT·E — matte graphite grand tourer"
+             loading="lazy">
+        <span class="slide-name-rotated font-hud">NS160</span>
+        <div class="slide-floor-line" aria-hidden="true"></div>
+
+        <div id="slide-panel-0" class="slide-open-content" role="tabpanel" aria-labelledby="slide-btn-0">
+          <span class="slide-model-name font-display" style="font-size:clamp(24px,3vw,56px)">NS160</span>
+          <img class="slide-bike-open"
+               src="assets/bikes/gt-e.webp"
+               alt="NS160 GT·E side profile, matte graphite"
+               loading="lazy">
+
+          <div>
+            <div class="line-mask"><p class="slide-tagline line-inner" style="--stagger:0">The grand tourer.</p></div>
+            <div class="slide-specs" style="margin-top:8px">
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">RANGE</span>
+                <span class="slide-spec-val font-hud">640 KM</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">0–100</span>
+                <span class="slide-spec-val font-hud">3.1 S</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">POWER</span>
+                <span class="slide-spec-val font-hud">680 KW</span>
+              </div>
+            </div>
+            <div class="slide-swatches" style="margin-top:12px">
+              <div class="swatch active" style="background:#2C2E33" title="Graphite"></div>
+              <div class="swatch"        style="background:#EDEAE4" title="Bone"></div>
+              <div class="swatch"        style="background:#E1251B" title="Taillight Red"></div>
+              <div class="swatch"        style="background:#CFE3FF" title="Xenon"></div>
+            </div>
+            <div class="line-mask"><a href="#reserve" class="slide-configure line-inner font-hud" style="--stagger:2" data-cursor-label="CONFIGURE">Configure →</a></div>
+          </div>
+        </div>
+      </button>
+
+      <!-- ── Slide 02: S ── -->
+      <button class="lineup-slide"
+              role="tab"
+              aria-selected="false"
+              aria-expanded="false"
+              aria-controls="slide-panel-1"
+              id="slide-btn-1"
+              data-idx="1"
+              tabindex="-1">
+
+        <span class="slide-num font-hud">02</span>
+        <img class="slide-img-closed"
+             src="assets/bikes/s.webp"
+             alt="NS160 S — satin bone white sport sedan"
+             loading="lazy">
+        <span class="slide-name-rotated font-hud">S</span>
+        <div class="slide-floor-line" aria-hidden="true"></div>
+
+        <div id="slide-panel-1" class="slide-open-content" role="tabpanel" aria-labelledby="slide-btn-1">
+          <span class="slide-model-name font-display" style="font-size:clamp(24px,3vw,56px)">S</span>
+          <img class="slide-bike-open"
+               src="assets/bikes/s.webp"
+               alt="NS160 S side profile, satin bone white"
+               loading="lazy">
+
+          <div>
+            <div class="line-mask"><p class="slide-tagline line-inner" style="--stagger:0">No compromise.</p></div>
+            <div class="slide-specs" style="margin-top:8px">
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">RANGE</span>
+                <span class="slide-spec-val font-hud">600 KM</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">0–100</span>
+                <span class="slide-spec-val font-hud">3.6 S</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">POWER</span>
+                <span class="slide-spec-val font-hud">520 KW</span>
+              </div>
+            </div>
+            <div class="slide-swatches" style="margin-top:12px">
+              <div class="swatch active" style="background:#EDEAE4" title="Bone White"></div>
+              <div class="swatch"        style="background:#07080A" title="Asphalt"></div>
+              <div class="swatch"        style="background:#8A8F98" title="Fog"></div>
+              <div class="swatch"        style="background:#E1251B" title="Red"></div>
+            </div>
+            <div class="line-mask"><a href="#reserve" class="slide-configure line-inner font-hud" style="--stagger:2" data-cursor-label="CONFIGURE">Configure →</a></div>
+          </div>
+        </div>
+      </button>
+
+      <!-- ── Slide 03: X ── -->
+      <button class="lineup-slide"
+              role="tab"
+              aria-selected="false"
+              aria-expanded="false"
+              aria-controls="slide-panel-2"
+              id="slide-btn-2"
+              data-idx="2"
+              tabindex="-1">
+
+        <span class="slide-num font-hud">03</span>
+        <img class="slide-img-closed"
+             src="assets/bikes/x.webp"
+             alt="NS160 X — midnight blue SUV coupe"
+             loading="lazy">
+        <span class="slide-name-rotated font-hud">X</span>
+        <div class="slide-floor-line" aria-hidden="true"></div>
+
+        <div id="slide-panel-2" class="slide-open-content" role="tabpanel" aria-labelledby="slide-btn-2">
+          <span class="slide-model-name font-display" style="font-size:clamp(24px,3vw,56px)">X</span>
+          <img class="slide-bike-open"
+               src="assets/bikes/x.webp"
+               alt="NS160 X side profile, midnight blue"
+               loading="lazy">
+
+          <div>
+            <div class="line-mask"><p class="slide-tagline line-inner" style="--stagger:0">Higher, never heavier.</p></div>
+            <div class="slide-specs" style="margin-top:8px">
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">RANGE</span>
+                <span class="slide-spec-val font-hud">560 KM</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">0–100</span>
+                <span class="slide-spec-val font-hud">4.2 S</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">POWER</span>
+                <span class="slide-spec-val font-hud">480 KW</span>
+              </div>
+            </div>
+            <div class="slide-swatches" style="margin-top:12px">
+              <div class="swatch active" style="background:#1A2340" title="Midnight Blue"></div>
+              <div class="swatch"        style="background:#2C2E33" title="Graphite"></div>
+              <div class="swatch"        style="background:#8A8F98" title="Fog"></div>
+              <div class="swatch"        style="background:#EDEAE4" title="Bone"></div>
+            </div>
+            <div class="line-mask"><a href="#reserve" class="slide-configure line-inner font-hud" style="--stagger:2" data-cursor-label="CONFIGURE">Configure →</a></div>
+          </div>
+        </div>
+      </button>
+
+      <!-- ── Slide 04: R ── -->
+      <button class="lineup-slide"
+              role="tab"
+              aria-selected="false"
+              aria-expanded="false"
+              aria-controls="slide-panel-3"
+              id="slide-btn-3"
+              data-idx="3"
+              tabindex="-1">
+
+        <span class="slide-num font-hud">04</span>
+        <img class="slide-img-closed"
+             src="assets/bikes/r.webp"
+             alt="NS160 R — satin black track coupe"
+             loading="lazy">
+        <span class="slide-name-rotated font-hud">R</span>
+        <div class="slide-floor-line" aria-hidden="true"></div>
+
+        <div id="slide-panel-3" class="slide-open-content" role="tabpanel" aria-labelledby="slide-btn-3">
+          <span class="slide-model-name font-display" style="font-size:clamp(24px,3vw,56px)">R</span>
+          <img class="slide-bike-open"
+               src="assets/bikes/r.webp"
+               alt="NS160 R side profile, satin black with red accents"
+               loading="lazy">
+
+          <div>
+            <div class="line-mask"><p class="slide-tagline line-inner" style="--stagger:0">Built for the track.</p></div>
+            <div class="slide-specs" style="margin-top:8px">
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">RANGE</span>
+                <span class="slide-spec-val font-hud">420 KM</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">0–100</span>
+                <span class="slide-spec-val font-hud">2.4 S</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">POWER</span>
+                <span class="slide-spec-val font-hud">900 KW</span>
+              </div>
+            </div>
+            <div class="slide-swatches" style="margin-top:12px">
+              <div class="swatch active" style="background:#121418" title="Satin Black"></div>
+              <div class="swatch"        style="background:#E1251B" title="Red"></div>
+              <div class="swatch"        style="background:#2C2E33" title="Graphite"></div>
+              <div class="swatch"        style="background:#8A8F98" title="Fog"></div>
+            </div>
+            <div class="line-mask"><a href="#reserve" class="slide-configure line-inner font-hud" style="--stagger:2" data-cursor-label="CONFIGURE">Configure →</a></div>
+          </div>
+        </div>
+      </button>
+
+      <!-- ── Slide 05: ONE ── -->
+      <button class="lineup-slide"
+              role="tab"
+              aria-selected="false"
+              aria-expanded="false"
+              aria-controls="slide-panel-4"
+              id="slide-btn-4"
+              data-idx="4"
+              tabindex="-1">
+
+        <span class="slide-num font-hud">05</span>
+        <img class="slide-img-closed"
+             src="assets/bikes/one.webp"
+             alt="NS160 ONE — concept hyperbike liquid silver"
+             loading="lazy">
+        <span class="slide-name-rotated font-hud">ONE</span>
+        <div class="slide-floor-line" aria-hidden="true"></div>
+
+        <div id="slide-panel-4" class="slide-open-content" role="tabpanel" aria-labelledby="slide-btn-4">
+          <span class="slide-model-name font-display" style="font-size:clamp(24px,3vw,56px)">ONE</span>
+          <img class="slide-bike-open"
+               src="assets/bikes/one.webp"
+               alt="NS160 ONE side profile, liquid silver concept"
+               loading="lazy">
+
+          <div>
+            <div class="line-mask"><p class="slide-tagline line-inner" style="--stagger:0">The future, early.</p></div>
+            <div class="slide-specs" style="margin-top:8px">
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">RANGE</span>
+                <span class="slide-spec-val font-hud">CONCEPT</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">0–100</span>
+                <span class="slide-spec-val font-hud">—</span>
+              </div>
+              <div class="slide-spec">
+                <span class="slide-spec-label font-hud">POWER</span>
+                <span class="slide-spec-val font-hud">—</span>
+              </div>
+            </div>
+            <div class="slide-swatches" style="margin-top:12px">
+              <div class="swatch active" style="background:#C0C0C0" title="Liquid Silver"></div>
+              <div class="swatch"        style="background:#EDEAE4" title="Bone"></div>
+              <div class="swatch"        style="background:#07080A" title="Asphalt"></div>
+              <div class="swatch"        style="background:#8A8F98" title="Fog"></div>
+            </div>
+            <div class="line-mask"><a href="#reserve" class="slide-configure line-inner font-hud" style="--stagger:2" data-cursor-label="CONFIGURE">Configure →</a></div>
+          </div>
+        </div>
+      </button>
+
+    </div><!-- /lineup-slides -->
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  SECTION 5 — RESERVE                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="reserve" aria-labelledby="reserve-heading">
+    <div class="line-mask">
+      <h2 id="reserve-heading" style="
+        font-family:'Archivo',sans-serif;
+        font-weight:400;
+        font-stretch:125%;
+        font-size:var(--display-size);
+        text-transform:uppercase;
+        letter-spacing:0.02em;
+        color:var(--bone);
+        margin-bottom:24px;" class="line-inner">Drive the night.</h2>
+    </div>
+    <p id="reserve-body" class="font-body" style="text-align:center;color:var(--fog);margin-bottom:48px">
+      One continuous line of light. 640 kilometres of silence.<br>
+      The NS160 is ready. Reserve yours now.
+    </p>
+    <button class="reserve-btn font-hud" aria-label="Reserve your SPIDEY NS160">
+      Reserve Your SPIDEY
+    </button>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!--  FOOTER                                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <footer id="footer" aria-label="Site footer">
+
+    <div class="footer-brand">
+      <a href="#hero-wrapper" id="footer-wordmark" class="font-hud" style="
+        font-family:'Archivo',sans-serif;
+        font-weight:400;
+        font-stretch:125%;
+        font-size:18px;
+        text-transform:uppercase;
+        letter-spacing:0.08em;
+        color:var(--bone);
+        text-decoration:none;
+        display:block;
+        margin-bottom:12px">SPIDEY</a>
+      <p id="footer-copy" class="font-hud" style="color:var(--fog)">© 2026 SPIDEY. Fictional brand.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Models</h4>
+      <ul>
+        <li><a href="#lineup">NS160</a></li>
+        <li><a href="#lineup">S</a></li>
+        <li><a href="#lineup">X</a></li>
+        <li><a href="#lineup">R</a></li>
+        <li><a href="#lineup">ONE</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Technology</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Legal</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+
+  </footer>
+
+  <!-- Config must load before main.js -->
+  <script src="config.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
